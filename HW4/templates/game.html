@@ -1,0 +1,33 @@
+<!-- templates/game.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Guess the Number</title>
+</head>
+<body>
+    <h1>Guess the Number Game</h1>
+    <p>Score: {{ score }}</p> <!-- Display the player's score -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <p>Attempts: {{ attempts }}</p>
+    <form method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <label for="guess">Enter your guess:</label>
+        {{ form.guess }}
+        <br>
+        {{ form.submit }}
+    </form>
+    <form method="post" action="{{ url_for('logout') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <button type="submit">Logout</button>
+    </form>
+</body>
+</html>
